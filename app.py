@@ -39,6 +39,9 @@ def unregister_api():
     
     if api_key is not None:
         redis.delete(api_key)
+        return jsonify({"status":"success"})
+    else:
+        return jsonify({"status":"failure"})
 
 
 @app.route('/process', methods=['POST'])
