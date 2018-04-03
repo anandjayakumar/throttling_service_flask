@@ -1,5 +1,3 @@
-from __future__ import print_function
-import sys
 from flask import Flask, jsonify, request
 from redis import Redis, ConnectionPool
 import time
@@ -14,6 +12,8 @@ def create_api_key(api_name,api_scope,limit,per):
     key =  api_name+":"+api_scope
     val_dict = {"limit":limit,"per":per}
     val_json = json.dumps(val_dict)
+	
+	# add the API key and throttling parameters to the db
     redis.set(key, val_json)
     return key
 
@@ -39,6 +39,7 @@ def unregister_api():
     if 'api_key' in request.get_json():
         api_key = request.get_json()['api_key']
     
+	# if API key exists, delete it
     if api_key is not None:
         redis.delete(api_key)
         return jsonify({"status":"success"})
@@ -51,14 +52,21 @@ def process_api():
     request_json = request.json    
     api_key = request_json['api_key']
     api_data = redis.get(api_key)
+	
+	# get the throttling parameters for the API key
     api_data_json = json.loads(api_data)
     limit = int(api_data_json['limit'])
     per = int(api_data_json['per'])
     counter_key = api_key + ":counter"
     
+	# calculate the last valid timestamp in the 'per' interval
     now = int(time.time()*1000)
     old = now - (per*1000)
+	
+	# remove all entries outside the 'per' interval 
     redis.zremrangebyscore(counter_key,0,old)
+	
+	# check if adding the current request goes over the limit
     if redis.zcard(counter_key) < limit:
         redis.zadd(counter_key, now, now)
         return jsonify({"status":"success"})
