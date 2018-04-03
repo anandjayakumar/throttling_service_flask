@@ -1,3 +1,5 @@
+from __future__ import print_function
+import sys
 from flask import Flask, jsonify, request
 from redis import Redis, ConnectionPool
 import time
@@ -46,7 +48,7 @@ def unregister_api():
 
 @app.route('/process', methods=['POST'])
 def process_api():
-    request_json = request.json
+    request_json = request.json    
     api_key = request_json['api_key']
     api_data = redis.get(api_key)
     api_data_json = json.loads(api_data)
@@ -57,7 +59,6 @@ def process_api():
     now = int(time.time()*1000)
     old = now - (per*1000)
     redis.zremrangebyscore(counter_key,0,old)
-    
     if redis.zcard(counter_key) < limit:
         redis.zadd(counter_key, now, now)
         return jsonify({"status":"success"})
