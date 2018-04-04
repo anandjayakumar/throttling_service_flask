@@ -59,7 +59,7 @@ For example, the Register API can be called at http://ec2-18-188-68-114.us-east-
 
 ## Future Enhancements
 1. Currently, null JSON inputs are not handled properly.  
-2. The application requires a unique combination of API name and scope. The causes issues when multiple clients try to register APIs with same name and scope. This can be overcome by generating random hashes and appending it to the API key.
+2. The application requires a unique combination of API name and scope. This can cause issues when multiple clients try to register APIs with same name and scope. This can be overcome by generating random hashes and appending it to the API key.
 
 
 
