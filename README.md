@@ -14,7 +14,11 @@ Next, run app.py as a Flask application by running the command
 python app.py
 ```
 This will start the application from a webserver running at localhost:5000  
-For demo purposes, a Redis server is running from an Amazon EC2 instance. To use local Redis server, this can be reconfigured from app.py
+For demo purposes, a Redis server is running from an Amazon EC2 instance. 
+  
+Edit: The Amazon EC2 instance is down.
+  
+To use local Redis server, this can be reconfigured from app.py
 
 
 ## Usage
@@ -49,15 +53,19 @@ Return value - 'Success' if the limit is not crossed. Else 'Failure' is returned
 
 ## Unit Testing
 
-The unit test cases are provided in tests.py. 
+The unit test cases are provided in tests.py. Execute the following command to run the tests - 
+  
+```python
+python -m unittest discover
+```
 
 
 ## Demo
 
 For quick demo, an instance of this application is running at an Amazon EC2 instance, available in   
 http://ec2-18-188-68-114.us-east-2.compute.amazonaws.com/  
-For example, the Register API can be called at http://ec2-18-188-68-114.us-east-2.compute.amazonaws.com/register.
-
+For example, the Register API can be called at http://ec2-18-188-68-114.us-east-2.compute.amazonaws.com/register.  
+Edit: The Amazon EC2 instance is down.
 
 ## Future Enhancements
 1. Currently, null JSON inputs are not handled properly.  
