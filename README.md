@@ -1,7 +1,7 @@
 # Throttling Service
 An API Throttling service written in Flask, using Redis for data storage.
   
-A Sliding Window algorithm is used. The timestamp of each successful API call is stored in a sorted set for each API. A client API is first registered with a throttle rate of <em>n</em> calls in <em>t</em> time.  When a new API call is received, all timestamps older than `current_timestamp - n` is deleted. Next, the size of the sorted set is compared with <em>n</em>. If the size is less than <em>n</em>, it returns 'Success' and the current timestamp is added to the sorted set. Else, 'Failure' is returned. 
+A Sliding Window algorithm is used. The timestamp of each successful API call is stored in a sorted set for each API. A client API is first registered with a throttle rate of <em>n</em> calls in <em>t</em> time.  When a new API call is received, all timestamps older than `current_timestamp - t` is deleted. Next, the size of the sorted set is compared with <em>n</em>. If the size is less than <em>n</em>, it returns 'Success' and the current timestamp is added to the sorted set. Else, 'Failure' is returned. 
 
 
 ## Installation
